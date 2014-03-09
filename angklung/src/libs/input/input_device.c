@@ -152,10 +152,7 @@ static byte aipInitEventDev(AIP_EVP e){
 
   /* Blacklist these "input" devices */
   if (strcmp(e->device_name, "bma250") == 0){
-    e->ignored = 1;
-  }
-  if (strcmp(e->device_name, "bma150") == 0){
-    e->ignored = 1;
+      e->ignored = 1;
   }
 
   /* virtualkeys.{device_name} */
@@ -467,15 +464,10 @@ static byte aipTranslateEvent(AIP_EVP e, struct input_event * ev){
     
     /* We are a finger-up state */
     if (!discard){
-      if ((downX<0)||(downY<0)){
-        discard=1;
-      }
-      else{
-        /* Report the key up */
-        ev->type = EV_ABS;
-        ev->code = 0;
-        ev->value = (downX << 16) | downY;
-      }
+      /* Report the key up */
+      ev->type = EV_ABS;
+      ev->code = 0;
+      ev->value = (downX << 16) | downY;
     }
     
     downX = -1;
@@ -529,19 +521,15 @@ static byte aipTranslateEvent(AIP_EVP e, struct input_event * ev){
       if (xd < e->vks[i].w/2 && yd < e->vks[i].h/2){
           ev->type = EV_KEY;
           ev->code = e->vks[i].scan;
-          ev->value= 0;
+          ev->value= 1;
           
-          vibrate(30);
+          /* vibrate(VIBRATOR_TIME_MS); */
           
           discard = 1;
           downX = 0;
           return AIP_TRANS_KEY;
       }
     }
-  }
-  
-  if ((x<0)||(y<0)){
-    discard=1;
   }
 
   /* If we were originally a button press, discard this event */

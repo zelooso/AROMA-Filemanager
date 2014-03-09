@@ -118,7 +118,6 @@ void ev_post_message(int key, int value){
 
 //-- INPUT CALLBACK
 void ev_input_callback(struct input_event * ev){
-  
   if (ev->type==EV_KEY){
     ev_post_message(ev->code,ev->value);
   }
@@ -150,8 +149,6 @@ void ev_input_callback(struct input_event * ev){
 //-- INPUT THREAD
 static void *ev_input_thread(void *cookie){
   //-- Loop for Input
-  
-  
   while (evthread_active){
     struct input_event ev;
     byte res=aipGetInput(&ev, 0);
